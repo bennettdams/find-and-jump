@@ -14,8 +14,15 @@
   "contributes": {
     "commands": [
       {
-        "command": "find-and-jump.helloWorld",
-        "title": "Hello World"
+        "command": "find-and-jump.exitSearchMode",
+        "title": "Exit search mode"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "escape",
+        "command": "find-and-jump.exitSearchMode",
+        "when": "editorTextFocus && find-and-jump.isSearchModeActive"
       }
     ]
   },

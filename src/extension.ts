@@ -43,7 +43,24 @@ export function activate(context: vscode.ExtensionContext) {
 
   initializeStatusBar();
 
-  context.subscriptions.push(statusBar);
+  const disposableCommandExitSearchMode = vscode.commands.registerCommand(
+    'find-and-jump.exitSearchMode',
+    () => {
+      exitSearchMode();
+    },
+  );
+
+  context.subscriptions.push(statusBar, disposableCommandExitSearchMode);
+}
+
+function exitSearchMode() {
+  setSearchModeStatus(false);
+  searchInput = '';
+  searchContext = null;
+
+  const msg = 'Exited search mode';
+  console.debug(msg);
+  setStatusBarMessage(msg);
 }
 
 /** Executed on deactivation. */
