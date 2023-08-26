@@ -43,6 +43,27 @@ export function activate(context: vscode.ExtensionContext) {
 
   initializeStatusBar();
 
+  const disposableCommandActivateSearchMode = vscode.commands.registerCommand(
+    'find-and-jump.activateSearchMode',
+    () => {
+      setSearchModeStatus(true);
+      setStatusBarMessage('Search mode activated');
+    },
+  );
+
+  const disposableCommandType = vscode.commands.registerCommand(
+    'type',
+    (event) => {
+      if (isSearchModeActive) {
+        searchInput += event.text;
+        // perform search
+      } else {
+        // fall back to the default type command
+        vscode.commands.executeCommand('default:type', event);
+      }
+    },
+  );
+
   const disposableCommandExitSearchMode = vscode.commands.registerCommand(
     'find-and-jump.exitSearchMode',
     () => {
@@ -50,7 +71,12 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
-  context.subscriptions.push(statusBar, disposableCommandExitSearchMode);
+  context.subscriptions.push(
+    statusBar,
+    disposableCommandActivateSearchMode,
+    disposableCommandType,
+    disposableCommandExitSearchMode,
+  );
 }
 
 function exitSearchMode() {
@@ -64,4 +90,6 @@ function exitSearchMode() {
 }
 
 /** Executed on deactivation. */
-export function deactivate() {}
+export function deactivate() {
+  console.debug('Deactivated');
+}

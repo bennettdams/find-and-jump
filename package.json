@@ -14,11 +14,20 @@
   "contributes": {
     "commands": [
       {
+        "command": "find-and-jump.activateSearchMode",
+        "title": "Activate search mode"
+      },
+      {
         "command": "find-and-jump.exitSearchMode",
         "title": "Exit search mode"
       }
     ],
     "keybindings": [
+      {
+        "key": "alt+oem_1",
+        "command": "find-and-jump.activateSearchMode",
+        "when": "editorTextFocus"
+      },
       {
         "key": "escape",
         "command": "find-and-jump.exitSearchMode",
