@@ -80,7 +80,7 @@ export function activate(context: vscode.ExtensionContext) {
     (event) => {
       if (isSearchModeActive) {
         searchInput += event.text;
-        executeSearch(searchInput);
+        executeSearch(searchInput, context.subscriptions);
       } else {
         // fall back to the default type command
         vscode.commands.executeCommand('default:type', event);
@@ -103,7 +103,10 @@ export function activate(context: vscode.ExtensionContext) {
   );
 }
 
-function executeSearch(searchTerm: string) {
+function executeSearch(
+  searchTerm: string,
+  subscriptions: vscode.ExtensionContext['subscriptions'],
+) {
   console.debug('######## Executing search for: ', searchTerm);
 
   const activeTextEditor = vscode.window.activeTextEditor;
@@ -171,7 +174,30 @@ function executeSearch(searchTerm: string) {
   // Store the matches and search term in a context for navigation
   searchContext = { searchTerm, matches, currentIndex: 0 };
 
-  // TODO Handle TAB to cycle
+  // Handle TAB keypress to cycle through matches
+  const dispoCycle = vscode.commands.registerCommand(
+    'find-and-jump.cycleThroughResults',
+    () => {
+      if (!searchContext) {
+        throw new Error('Missing search context');
+      }
+
+      // Determine index with modulo to jump to the first match after the last match
+      const newCurrentIndex =
+        (searchContext.currentIndex + 1) % searchContext.matches.length;
+      searchContext.currentIndex = newCurrentIndex;
+
+      const matchIndex = searchContext.matches.at(searchContext.currentIndex);
+
+      const range = createRange(matchIndex, searchContext.searchTerm);
+
+      // Select the search result
+      activeTextEditor.selection = new vscode.Selection(range.start, range.end);
+      // Scroll to search result
+      activeTextEditor.revealRange(range, vscode.TextEditorRevealType.InCenter);
+    },
+  );
+  subscriptions.push(dispoCycle);
 
   console.debug('######## End of executing search');
 }

@@ -32,6 +32,11 @@
         "key": "escape",
         "command": "find-and-jump.exitSearchMode",
         "when": "editorTextFocus && find-and-jump.isSearchModeActive"
+      },
+      {
+        "key": "tab",
+        "command": "find-and-jump.cycleThroughResults",
+        "when": "editorTextFocus && find-and-jump.isSearchModeActive"
       }
     ]
   },
