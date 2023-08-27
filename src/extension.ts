@@ -13,7 +13,7 @@ let searchContext: {
 } | null;
 
 function setStatusBarMessage(msg: string) {
-  statusBar.text = msg;
+  statusBar.text = `${isSearchModeActive ? '🔵' : ''} ${msg}`;
 }
 
 const searchDecorationType = vscode.window.createTextEditorDecorationType({
@@ -38,6 +38,10 @@ function showTooltipMessage(
       throw new Error(`Unkown tooltip type: ${type}`);
     }
   }
+}
+
+function setInitialSearchModeMessage() {
+  setStatusBarMessage('Search mode activate');
 }
 
 function setSearchModeStatus(isActiveNew: boolean) {
@@ -93,9 +97,11 @@ export function activate(context: vscode.ExtensionContext) {
   const disposableCommandActivateSearchMode = vscode.commands.registerCommand(
     'find-and-jump.activateSearchMode',
     () => {
+      console.debug('Command: activateSearchMode');
+
       if (!isSearchModeActive) {
         setSearchModeStatus(true);
-        setStatusBarMessage('Search mode activated');
+        setInitialSearchModeMessage();
       }
     },
   );
@@ -103,9 +109,11 @@ export function activate(context: vscode.ExtensionContext) {
   const disposableCommandType = vscode.commands.registerCommand(
     'type',
     (event) => {
+      console.debug('Command: type');
+
       if (isSearchModeActive) {
         searchInput += event.text;
-        executeSearch(searchInput, context.subscriptions);
+        executeSearch(searchInput);
       } else {
         // Fall back to the default type command
         vscode.commands.executeCommand('default:type', event);
@@ -113,9 +121,32 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
+  const disposableCommandCaptureBackspace = vscode.commands.registerCommand(
+    'find-and-jump.captureBackspace',
+    () => {
+      console.debug('Command: captureBackspace');
+
+      if (isSearchModeActive) {
+        // Handle backspace key: remove the last character
+        if (searchInput.length > 0) {
+          searchInput = searchInput.slice(0, -1);
+        }
+
+        // Only search if the input is at least 1 character
+        if (searchInput.length > 0) {
+          executeSearch(searchInput);
+        } else {
+          setInitialSearchModeMessage();
+        }
+      }
+    },
+  );
+
   const disposableCommandExitSearchMode = vscode.commands.registerCommand(
     'find-and-jump.exitSearchMode',
     () => {
+      console.debug('Command: exitSearchMode');
+
       exitSearchMode();
     },
   );
@@ -124,6 +155,8 @@ export function activate(context: vscode.ExtensionContext) {
   const dispoCycleThrough = vscode.commands.registerCommand(
     'find-and-jump.cycleThroughResults',
     () => {
+      console.debug('Command: cycleThroughResults');
+
       if (!searchContext) {
         throw new Error('Missing search context');
       }
