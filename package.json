@@ -24,7 +24,7 @@
     ],
     "keybindings": [
       {
-        "key": "alt+oem_1",
+        "key": "alt+q",
         "command": "find-and-jump.activateSearchMode",
         "when": "editorTextFocus"
       },
