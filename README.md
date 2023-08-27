@@ -1,6 +1,6 @@
-# find-and-jump 🔎🦘 (VS Code extension)
+# Find & Jump 🔍🦘 (VS Code extension)
 
-Easy way to find text, jump to it and cycle through matches.
+Easy way to find text, jump to it and cycle through matches, directly in your active editor window.
 
 ## Features
 
@@ -14,10 +14,6 @@ The difference to other extensions like this is that every keystroke will show y
 <!-- \!\[feature X\]\(images/feature-x.png\) -->
 
 ## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
 
 This extension contributes the following settings:
 

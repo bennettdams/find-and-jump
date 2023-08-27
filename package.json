@@ -1,14 +1,23 @@
 {
   "name": "find-and-jump",
   "displayName": "Find & Jump",
-  "description": "Find a text and jump to it. Allows cycling through the results via a keybind.",
+  "description": "Easy way to find text, jump to it and cycle through matches, directly in your active editor window.",
   "version": "0.0.1",
+  "publisher": "Bennett Dams",
   "engines": {
     "vscode": "^1.81.0"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "find",
+    "jump",
+    "cycle",
+    "code navigation",
+    "navigation"
+  ],
+  "preview": true,
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
