@@ -93,8 +93,10 @@ export function activate(context: vscode.ExtensionContext) {
   const disposableCommandActivateSearchMode = vscode.commands.registerCommand(
     'find-and-jump.activateSearchMode',
     () => {
-      setSearchModeStatus(true);
-      setStatusBarMessage('Search mode activated');
+      if (!isSearchModeActive) {
+        setSearchModeStatus(true);
+        setStatusBarMessage('Search mode activated');
+      }
     },
   );
 
@@ -186,13 +188,20 @@ function executeSearch(searchTerm: string) {
   );
   const noOfMatches = matches.length;
 
+  const searchMsg = `Searching for: '${searchTerm}'`;
+
   if (noOfMatches === 0) {
+    if (searchContext?.searchTerm) {
+      searchContext.searchTerm = searchTerm;
+    }
+
+    setStatusBarMessage(`${searchMsg} | No matches`);
     showTooltipMessage(`No matches found for ${searchTerm}.`);
     return;
   } else {
     setStatusBarMessage(
-      `Searching for: '${searchTerm}' | ${noOfMatches} result${
-        noOfMatches === 1 ? '' : 's | Press TAB to cycle through'
+      `${searchMsg} | ${noOfMatches} match${
+        noOfMatches === 1 ? '' : 'es | Press TAB to cycle through'
       }`,
     );
   }
@@ -229,12 +238,16 @@ function executeSearch(searchTerm: string) {
 
 function exitSearchMode() {
   setSearchModeStatus(false);
-  searchInput = '';
-  searchContext = null;
+  resetState();
 
   const msg = 'Exited search mode';
   console.debug(msg);
   setStatusBarMessage(msg);
+}
+
+function resetState() {
+  searchInput = '';
+  searchContext = null;
 }
 
 /** Executed on deactivation. */
