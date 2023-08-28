@@ -4,7 +4,7 @@ Easy way to find text, jump to it and cycle through matches, directly in your ac
 
 ## Features
 
-1. Press a keybind to activate search mode
+1. Press a keybinding to activate search mode
 2. Enter your search text
 3. Every new character will show new matches
 4. Press another key (e.g. TAB) to cycle through the matches
@@ -15,17 +15,40 @@ The difference to other extensions like this is that every keystroke will show y
 
 ## Extension Settings
 
-This extension contributes the following settings:
+This extension has no specific settings besides custom keybindings.
 
-- `myExtension.enable`: Enable/disable this extension.
-- `myExtension.thing`: Set to `blah` to do something.
+### Keybindings
 
-```
+There are three main keybindings: activate, exit and cycle through matches.
+
+- `findAndJump.activateSearchMode`
+  - Activate search mode
+  - _default: Alt + Q_
+- `findAndJump.exitSearchMode`
+  - Exit search mode
+  - _default: Escape_
+- `findAndJump.cycleThroughMatches`
+  - Cycle through results in search mode. Only active when search mode is active.
+  - _default: Tab_
+
+Here's the default keybindings for the JSON settings:
+
+```json
 {
-    "key": "alt+q",
-    "command": "findAndJump.activateSearchMode",
-    "when": "editorTextFocus"
-  },
+  "key": "alt+q",
+  "command": "findAndJump.activateSearchMode",
+  "when": "editorTextFocus"
+},
+{
+  "key": "escape",
+  "command": "findAndJump.exitSearchMode",
+  "when": "editorTextFocus && findAndJump.isSearchModeActive"
+},
+{
+  "key": "tab",
+  "command": "findAndJump.cycleThroughMatches",
+  "when": "editorTextFocus && findAndJump.isSearchModeActive"
+},
 ```
 
 ## Release Notes

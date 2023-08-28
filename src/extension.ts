@@ -153,9 +153,9 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Handle TAB keypress to cycle through matches
   const dispoCycleThrough = vscode.commands.registerCommand(
-    'findAndJump.cycleThroughResults',
+    'findAndJump.cycleThroughMatches',
     () => {
-      console.debug('Command: cycleThroughResults');
+      console.debug('Command: cycleThroughMatches');
 
       if (!searchContext) {
         throw new Error('Missing search context');

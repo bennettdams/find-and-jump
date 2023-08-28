@@ -48,7 +48,7 @@
       },
       {
         "key": "tab",
-        "command": "findAndJump.cycleThroughResults",
+        "command": "findAndJump.cycleThroughMatches",
         "when": "editorTextFocus && findAndJump.isSearchModeActive"
       },
       {
