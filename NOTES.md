@@ -9,5 +9,11 @@ vsce login my-publisher-name
 Release command:
 
 ```sh
-vsce publish -m "Release `vx`" x
+vsce publish x -m "Release \`vx\`"
+```
+
+Custom version without publish:
+
+```sh
+npm version x -m "Release \`vx\`"
 ```
