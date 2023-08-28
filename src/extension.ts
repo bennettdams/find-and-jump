@@ -16,11 +16,11 @@ function setStatusBarMessage(msg: string) {
   statusBar.text = `${isSearchModeActive ? '🔵' : ''} ${msg}`;
 }
 
-type ExtensionSetting = 'showTooltipIfNoMatches';
+type ExtensionSetting = 'showTooltipIfNoMatches' | 'caseSensitiveSearch';
 
 function readConfiguration(settingKey: ExtensionSetting) {
-  const extenstionConfig = vscode.workspace.getConfiguration('findAndJump');
-  const configValue = extenstionConfig.get<ExtensionSetting>(settingKey);
+  const extensionConfig = vscode.workspace.getConfiguration('findAndJump');
+  const configValue = extensionConfig.get<string>(settingKey);
 
   if (configValue === undefined) {
     const msg = `Missing config value for ${settingKey}`;
@@ -228,7 +228,11 @@ function executeSearch(searchTerm: string) {
 
   const document = activeTextEditor.document;
   const documentText = document.getText();
-  const regex = new RegExp(searchTerm, 'g');
+  const isCaseSensitiveSearch = Boolean(
+    readConfiguration('caseSensitiveSearch'),
+  );
+  const flags = isCaseSensitiveSearch === true ? 'g' : 'gi';
+  const regex = new RegExp(searchTerm, flags);
 
   const matches: Matches = Array.from(
     documentText.matchAll(regex),

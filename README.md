@@ -17,6 +17,9 @@ The difference to other extensions like this is that every keystroke will show y
 
 ### Configuration
 
+- `findAndJump.caseSensitiveSearch`
+  - Use case-sensitive search
+  - _default: false_
 - `findAndJump.showTooltipIfNoMatches`
   - Show a tooltip if the current search has no matches
   - _default: false_

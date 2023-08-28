@@ -28,6 +28,11 @@
     "configuration": {
       "title": "Find & Jump",
       "properties": {
+        "findAndJump.caseSensitiveSearch": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use case-sensitive search."
+        },
         "findAndJump.showTooltipIfNoMatches": {
           "type": "boolean",
           "default": false,
