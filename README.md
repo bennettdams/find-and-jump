@@ -24,8 +24,10 @@ This extension contributes the following settings:
 
 🚧 Still under construction
 
-### 0.0.1
+[Please refer to the GitHub releases.](https://github.com/bennettdams/find-and-jump/releases)
 
-To be announced...
+## Internal
 
----
+Release command:
+
+`vsce publish 1.1.0 -m "Release v1.1.0"`
