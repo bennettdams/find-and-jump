@@ -88,6 +88,11 @@
         "when": "editorTextFocus && findAndJump.isSearchModeActive"
       },
       {
+        "key": "shift+tab",
+        "command": "findAndJump.cycleThroughMatchesBackwards",
+        "when": "editorTextFocus && findAndJump.isSearchModeActive"
+      },
+      {
         "key": "backspace",
         "command": "findAndJump.captureBackspace",
         "when": "editorTextFocus && findAndJump.isSearchModeActive"

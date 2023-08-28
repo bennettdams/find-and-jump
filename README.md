@@ -51,6 +51,9 @@ There are three main keybindings: activate, exit and cycle through matches.
 - `findAndJump.cycleThroughMatches`
   - Cycle through results in search mode. Only active when search mode is active.
   - _default: Tab_
+- `findAndJump.cycleThroughMatchesBackwards`
+  - Cycle backwards through results in search mode. Only active when search mode is active.
+  - _default: Shift + Tab_
 
 Here's the default keybindings for the JSON settings:
 
@@ -68,6 +71,11 @@ Here's the default keybindings for the JSON settings:
 {
   "key": "tab",
   "command": "findAndJump.cycleThroughMatches",
+  "when": "editorTextFocus && findAndJump.isSearchModeActive"
+},
+{
+  "key": "shift+tab",
+  "command": "findAndJump.cycleThroughMatchesBackwards",
   "when": "editorTextFocus && findAndJump.isSearchModeActive"
 },
 ```

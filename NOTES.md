@@ -23,3 +23,9 @@ Push local Git tags
 ```sh
 git push --follow-tags
 ```
+
+Remove local Git tag
+
+```sh
+git tag -d v0.0.1
+```

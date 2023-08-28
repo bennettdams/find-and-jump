@@ -206,35 +206,21 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
-  // Handle TAB keypress to cycle through matches
   const dispoCycleThrough = vscode.commands.registerCommand(
     'findAndJump.cycleThroughMatches',
     () => {
       console.debug('Command: cycleThroughMatches');
 
-      if (!searchContext) {
-        throw new Error('Missing search context');
-      }
+      executeCycleThrough('forwards');
+    },
+  );
 
-      // Determine index with modulo to jump to the first match after the last match
-      const newCurrentIndex =
-        (searchContext.currentIndex + 1) % searchContext.matches.length;
-      searchContext.currentIndex = newCurrentIndex;
+  const dispoCycleThroughBackwards = vscode.commands.registerCommand(
+    'findAndJump.cycleThroughMatchesBackwards',
+    () => {
+      console.debug('Command: cycleThroughMatchesBackwards');
 
-      const matchIndex = searchContext.matches.at(searchContext.currentIndex);
-
-      const activeTextEditor = vscode.window.activeTextEditor;
-      if (!activeTextEditor) {
-        throw new Error('No active text editor');
-      } else {
-        const range = createRange({
-          matchIndex,
-          searchTerm: searchContext.searchTerm,
-          document: activeTextEditor.document,
-        });
-
-        setSelection(range);
-      }
+      executeCycleThrough('backwards');
     },
   );
 
@@ -243,9 +229,39 @@ export function activate(context: vscode.ExtensionContext) {
     disposableCommandActivateSearchMode,
     disposableCommandType,
     dispoCycleThrough,
+    dispoCycleThroughBackwards,
     disposableCommandCaptureBackspace,
     disposableCommandExitSearchMode,
   );
+}
+
+function executeCycleThrough(direction: 'forwards' | 'backwards' = 'forwards') {
+  if (!searchContext) {
+    throw new Error('Missing search context');
+  }
+
+  const indexOffsetForDirection = direction === 'forwards' ? 1 : -1;
+
+  // Determine index with modulo to jump to the first match after the last match
+  const newCurrentIndex =
+    (searchContext.currentIndex + indexOffsetForDirection) %
+    searchContext.matches.length;
+  searchContext.currentIndex = newCurrentIndex;
+
+  const matchIndex = searchContext.matches.at(searchContext.currentIndex);
+
+  const activeTextEditor = vscode.window.activeTextEditor;
+  if (!activeTextEditor) {
+    throw new Error('No active text editor');
+  } else {
+    const range = createRange({
+      matchIndex,
+      searchTerm: searchContext.searchTerm,
+      document: activeTextEditor.document,
+    });
+
+    setSelection(range);
+  }
 }
 
 function executeSearch(searchTerm: string) {
