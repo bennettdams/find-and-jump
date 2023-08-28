@@ -17,3 +17,9 @@ Custom version without publish:
 ```sh
 npm version x -m "Release \`vx\`"
 ```
+
+Push local Git tags
+
+```sh
+git push --follow-tags
+```

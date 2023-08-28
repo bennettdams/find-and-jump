@@ -23,6 +23,18 @@ The difference to other extensions like this is that every keystroke will show y
 - `findAndJump.showTooltipIfNoMatches`
   - Show a tooltip if the current search has no matches
   - _default: false_
+- `findAndJump.matchesColor.background`
+  - Custom background color for all matches
+  - _default: "#3e56c2"_
+- `findAndJump.matchesColor.foreground`
+  - Custom foreground color for all matches
+  - _default: "white"_
+- `findAndJump.currentMatchColor.background`
+  - Custom background color for the currently selected match
+  - _default: "#132eab"_
+- `findAndJump.currentMatchColor.foreground`
+  - Custom foreground color for the currently selected match
+  - _default: "white"_
 
 ### Keybindings
 

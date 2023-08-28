@@ -16,7 +16,13 @@ function setStatusBarMessage(msg: string) {
   statusBar.text = `${isSearchModeActive ? '🔵' : ''} ${msg}`;
 }
 
-type ExtensionSetting = 'showTooltipIfNoMatches' | 'caseSensitiveSearch';
+type ExtensionSetting =
+  | 'showTooltipIfNoMatches'
+  | 'caseSensitiveSearch'
+  | 'matchesColor.foreground'
+  | 'matchesColor.background'
+  | 'currentMatchColor.foreground'
+  | 'currentMatchColor.background';
 
 function readConfiguration(settingKey: ExtensionSetting) {
   const extensionConfig = vscode.workspace.getConfiguration('findAndJump');
@@ -31,10 +37,29 @@ function readConfiguration(settingKey: ExtensionSetting) {
   return configValue;
 }
 
-const searchDecorationType = vscode.window.createTextEditorDecorationType({
-  // TODO Pick custom color
-  backgroundColor: { id: 'myExtension.searchHighlight' },
-});
+/**
+ * This needs to be defined "globally" as `setDecorations` relies on a stable instance when overwriting one.
+ * Without this, "old" (already applied) decorations would not be reset (e.g. when entering characters as search input).
+ *
+ * See: https://github.com/microsoft/vscode-extension-samples/issues/22
+ */
+const decorations = {
+  matches: vscode.window.createTextEditorDecorationType({
+    backgroundColor: readConfiguration('matchesColor.background'),
+    color: readConfiguration('matchesColor.foreground'),
+  }),
+  currentMatch: vscode.window.createTextEditorDecorationType({
+    backgroundColor: readConfiguration('currentMatchColor.background'),
+    color: readConfiguration('currentMatchColor.foreground'),
+  }),
+};
+
+function setTextDecoration(
+  activeTextEditor: vscode.TextEditor,
+  decorationOptions: vscode.DecorationOptions[],
+) {
+  activeTextEditor.setDecorations(decorations.matches, decorationOptions);
+}
 
 function showTooltipMessage(
   msg: string,
@@ -101,6 +126,21 @@ function createRange({
   const range = new vscode.Range(startPos, endPos);
 
   return range;
+}
+
+function setSelection(range: vscode.Range) {
+  const activeTextEditor = vscode.window.activeTextEditor;
+
+  if (!activeTextEditor) {
+    throw new Error('No active text editor');
+  } else {
+    // Set the active decoration for search result
+    activeTextEditor.setDecorations(decorations.currentMatch, [range]);
+    // Select the search result
+    activeTextEditor.selection = new vscode.Selection(range.start, range.end);
+    // Scroll to search result
+    activeTextEditor.revealRange(range, vscode.TextEditorRevealType.InCenter);
+  }
 }
 
 /** Executed on activation. */
@@ -193,16 +233,7 @@ export function activate(context: vscode.ExtensionContext) {
           document: activeTextEditor.document,
         });
 
-        // Select the search result
-        activeTextEditor.selection = new vscode.Selection(
-          range.start,
-          range.end,
-        );
-        // Scroll to search result
-        activeTextEditor.revealRange(
-          range,
-          vscode.TextEditorRevealType.InCenter,
-        );
+        setSelection(range);
       }
     },
   );
@@ -274,15 +305,12 @@ function executeSearch(searchTerm: string) {
       };
     });
 
+  setTextDecoration(activeTextEditor, matchDecorations);
+
   // Initially set the selection to the first match
   const firstMatchDecoration = matchDecorations.at(0);
   if (!!firstMatchDecoration) {
-    activeTextEditor.selection = new vscode.Selection(
-      firstMatchDecoration.range.start,
-      firstMatchDecoration.range.end,
-    );
-
-    activeTextEditor.setDecorations(searchDecorationType, matchDecorations);
+    setSelection(firstMatchDecoration.range);
   }
 
   // Store the matches and search term in a context for navigation
@@ -303,6 +331,14 @@ function exitSearchMode() {
 function resetState() {
   searchInput = '';
   searchContext = null;
+
+  const activeTextEditor = vscode.window.activeTextEditor;
+  if (!activeTextEditor) {
+    throw new Error('No active text editor');
+  } else {
+    activeTextEditor.setDecorations(decorations.matches, []);
+    activeTextEditor.setDecorations(decorations.currentMatch, []);
+  }
 }
 
 /** Executed on deactivation. */

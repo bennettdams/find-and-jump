@@ -38,6 +38,26 @@
           "type": "boolean",
           "default": false,
           "description": "Show a tooltip if the current search has no matches."
+        },
+        "findAndJump.matchesColor.background": {
+          "type": "string",
+          "default": "#3e56c2",
+          "description": "Custom background color for all matches"
+        },
+        "findAndJump.matchesColor.foreground": {
+          "type": "string",
+          "default": "white",
+          "description": "Custom foreground color for all matches"
+        },
+        "findAndJump.currentMatchColor.background": {
+          "type": "string",
+          "default": "#132eab",
+          "description": "Custom background color for the currently selected match"
+        },
+        "findAndJump.currentMatchColor.foreground": {
+          "type": "string",
+          "default": "white",
+          "description": "Custom foreground color for the currently selected match"
         }
       }
     },
@@ -81,9 +101,9 @@
     "lint": "eslint src --ext ts",
     "format": "prettier . --write",
     "//////// Build": "",
-    "build": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+    "build": "esbuild ./src/extension.ts --bundle --minify --outfile=out/main.js --external:vscode --format=cjs --platform=node",
     "build:sourcemap": "npm run build -- --sourcemap",
-    "vscode:prepublish": "npm run build -- --minify",
+    "vscode:prepublish": "npm run build",
     "package": "vsce package",
     "//////// Test": "",
     "compile-tests": "tsc -p . --outDir out-tests",
