@@ -20,14 +20,16 @@ This extension contributes the following settings:
 - `myExtension.enable`: Enable/disable this extension.
 - `myExtension.thing`: Set to `blah` to do something.
 
+```
+{
+    "key": "alt+q",
+    "command": "findAndJump.activateSearchMode",
+    "when": "editorTextFocus"
+  },
+```
+
 ## Release Notes
 
-🚧 Still under construction
+🚧 Still under construction 🚧
 
 [Please refer to the GitHub releases.](https://github.com/bennettdams/find-and-jump/releases)
-
-## Internal
-
-Release command:
-
-`vsce publish 1.1.0 -m "Release v1.1.0"`

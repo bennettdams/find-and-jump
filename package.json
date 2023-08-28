@@ -27,34 +27,34 @@
   "contributes": {
     "commands": [
       {
-        "command": "find-and-jump.activateSearchMode",
+        "command": "findAndJump.activateSearchMode",
         "title": "Activate search mode"
       },
       {
-        "command": "find-and-jump.exitSearchMode",
+        "command": "findAndJump.exitSearchMode",
         "title": "Exit search mode"
       }
     ],
     "keybindings": [
       {
         "key": "alt+q",
-        "command": "find-and-jump.activateSearchMode",
+        "command": "findAndJump.activateSearchMode",
         "when": "editorTextFocus"
       },
       {
         "key": "escape",
-        "command": "find-and-jump.exitSearchMode",
-        "when": "editorTextFocus && find-and-jump.isSearchModeActive"
+        "command": "findAndJump.exitSearchMode",
+        "when": "editorTextFocus && findAndJump.isSearchModeActive"
       },
       {
         "key": "tab",
-        "command": "find-and-jump.cycleThroughResults",
-        "when": "editorTextFocus && find-and-jump.isSearchModeActive"
+        "command": "findAndJump.cycleThroughResults",
+        "when": "editorTextFocus && findAndJump.isSearchModeActive"
       },
       {
         "key": "backspace",
-        "command": "find-and-jump.captureBackspace",
-        "when": "editorTextFocus && find-and-jump.isSearchModeActive"
+        "command": "findAndJump.captureBackspace",
+        "when": "editorTextFocus && findAndJump.isSearchModeActive"
       }
     ]
   },

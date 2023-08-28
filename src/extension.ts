@@ -48,7 +48,7 @@ function setSearchModeStatus(isActiveNew: boolean) {
   isSearchModeActive = isActiveNew;
   vscode.commands.executeCommand(
     'setContext',
-    'find-and-jump.isSearchModeActive',
+    'findAndJump.isSearchModeActive',
     isActiveNew,
   );
 }
@@ -58,7 +58,7 @@ function initializeStatusBar() {
     vscode.StatusBarAlignment.Left,
     100,
   );
-  statusBar.command = 'find-and-jump.exitSearchMode';
+  statusBar.command = 'findAndJump.exitSearchMode';
   statusBar.tooltip = 'Click to exit search mode.';
   statusBar.show();
 
@@ -95,7 +95,7 @@ export function activate(context: vscode.ExtensionContext) {
   initializeStatusBar();
 
   const disposableCommandActivateSearchMode = vscode.commands.registerCommand(
-    'find-and-jump.activateSearchMode',
+    'findAndJump.activateSearchMode',
     () => {
       console.debug('Command: activateSearchMode');
 
@@ -122,7 +122,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   const disposableCommandCaptureBackspace = vscode.commands.registerCommand(
-    'find-and-jump.captureBackspace',
+    'findAndJump.captureBackspace',
     () => {
       console.debug('Command: captureBackspace');
 
@@ -143,7 +143,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   const disposableCommandExitSearchMode = vscode.commands.registerCommand(
-    'find-and-jump.exitSearchMode',
+    'findAndJump.exitSearchMode',
     () => {
       console.debug('Command: exitSearchMode');
 
@@ -153,7 +153,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Handle TAB keypress to cycle through matches
   const dispoCycleThrough = vscode.commands.registerCommand(
-    'find-and-jump.cycleThroughResults',
+    'findAndJump.cycleThroughResults',
     () => {
       console.debug('Command: cycleThroughResults');
 
