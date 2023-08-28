@@ -12,4 +12,8 @@ suite('Extension Test Suite', () => {
     assert.strictEqual(-1, [1, 2, 3].indexOf(5));
     assert.strictEqual(-1, [1, 2, 3].indexOf(0));
   });
+
+  test('wait', async () => {
+    await new Promise((r) => setTimeout(r, 1500));
+  });
 });
