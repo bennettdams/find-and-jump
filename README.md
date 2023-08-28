@@ -2,7 +2,7 @@
 
 Easy way to find text, jump to it and cycle through matches, directly in your active editor window.
 
-## Features
+## Usage
 
 1. Press a keybinding to activate search mode
 2. Enter your search text
@@ -15,7 +15,11 @@ The difference to other extensions like this is that every keystroke will show y
 
 ## Extension Settings
 
-This extension has no specific settings besides custom keybindings.
+### Configuration
+
+- `findAndJump.showTooltipIfNoMatches`
+  - Show a tooltip if the current search has no matches
+  - _default: false_
 
 ### Keybindings
 

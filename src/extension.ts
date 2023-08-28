@@ -16,6 +16,21 @@ function setStatusBarMessage(msg: string) {
   statusBar.text = `${isSearchModeActive ? '🔵' : ''} ${msg}`;
 }
 
+type ExtensionSetting = 'showTooltipIfNoMatches';
+
+function readConfiguration(settingKey: ExtensionSetting) {
+  const extenstionConfig = vscode.workspace.getConfiguration('findAndJump');
+  const configValue = extenstionConfig.get<ExtensionSetting>(settingKey);
+
+  if (configValue === undefined) {
+    const msg = `Missing config value for ${settingKey}`;
+    showTooltipMessage(msg, 'error');
+    throw new Error(msg);
+  }
+
+  return configValue;
+}
+
 const searchDecorationType = vscode.window.createTextEditorDecorationType({
   // TODO Pick custom color
   backgroundColor: { id: 'myExtension.searchHighlight' },
@@ -229,7 +244,10 @@ function executeSearch(searchTerm: string) {
     }
 
     setStatusBarMessage(`${searchMsg} | No matches`);
-    showTooltipMessage(`No matches found for ${searchTerm}.`);
+
+    if (!!readConfiguration('showTooltipIfNoMatches')) {
+      showTooltipMessage(`No matches found for ${searchTerm}.`);
+    }
     return;
   } else {
     setStatusBarMessage(

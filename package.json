@@ -25,6 +25,16 @@
   "activationEvents": [],
   "main": "./out/main.js",
   "contributes": {
+    "configuration": {
+      "title": "Find & Jump",
+      "properties": {
+        "findAndJump.showTooltipIfNoMatches": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show a tooltip if the current search has no matches."
+        }
+      }
+    },
     "commands": [
       {
         "command": "findAndJump.activateSearchMode",
