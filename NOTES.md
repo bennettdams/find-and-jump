@@ -9,5 +9,5 @@ vsce login my-publisher-name
 Release command:
 
 ```sh
-vsce publish 0.0.1 -m "Release `v0.0.1`"
+vsce publish -m "Release `vx`" x
 ```

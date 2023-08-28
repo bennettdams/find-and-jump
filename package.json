@@ -21,6 +21,7 @@
     "code navigation",
     "navigation"
   ],
+  "icon": "images/logo-find-and-jump.png",
   "preview": true,
   "activationEvents": [],
   "main": "./out/main.js",

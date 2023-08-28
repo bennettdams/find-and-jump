@@ -2,6 +2,8 @@
 
 Easy way to find text, jump to it and cycle through matches, directly in your active editor window.
 
+<img src="images/logo-find-and-jump.png" alt="Find & Jump logo" width="300"/>
+
 ## Usage
 
 1. Press a keybinding to activate search mode
@@ -10,8 +12,6 @@ Easy way to find text, jump to it and cycle through matches, directly in your ac
 4. Press another key (e.g. TAB) to cycle through the matches
 
 The difference to other extensions like this is that every keystroke will show you new matches, without the need to confirm your search first.
-
-<!-- \!\[feature X\]\(images/feature-x.png\) -->
 
 ## Extension Settings
 
