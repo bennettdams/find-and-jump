@@ -13,6 +13,8 @@ Easy way to find text, jump to it and cycle through matches, directly in your ac
 
 The difference to other extensions like this is that every keystroke will show you new matches, without the need to confirm your search first.
 
+<img src="images/demo-find-and-jump.gif" alt="Find & Jump demo" width="700"/>
+
 ## Extension Settings
 
 ### Configuration
