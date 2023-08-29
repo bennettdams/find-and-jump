@@ -2,7 +2,7 @@
   "name": "find-and-jump",
   "displayName": "Find & Jump",
   "description": "Easy way to find text, jump to it and cycle through matches, directly in your active editor window.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "bennettdams",
   "engines": {
     "vscode": "^1.81.0"
