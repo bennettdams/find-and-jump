@@ -81,7 +81,7 @@ function showTooltipMessage(
 }
 
 function setInitialSearchModeMessage() {
-  setStatusBarMessage('Search mode activate');
+  setStatusBarMessage('Search mode active');
 }
 
 function setSearchModeStatus(isActiveNew: boolean) {
@@ -128,7 +128,7 @@ function createRange({
   return range;
 }
 
-function setSelection(range: vscode.Range) {
+function setSelection(range: vscode.Range, currentIndexNew: number) {
   const activeTextEditor = vscode.window.activeTextEditor;
 
   if (!activeTextEditor) {
@@ -140,6 +140,14 @@ function setSelection(range: vscode.Range) {
     activeTextEditor.selection = new vscode.Selection(range.start, range.end);
     // Scroll to search result
     activeTextEditor.revealRange(range, vscode.TextEditorRevealType.InCenter);
+
+    if (!!searchContext) {
+      /*
+       * We are programmatically changing the selection, so we need to save the new current index
+       * in the search context so "cycling" is aware of it.
+       */
+      searchContext.currentIndex = currentIndexNew;
+    }
   }
 }
 
@@ -235,6 +243,43 @@ export function activate(context: vscode.ExtensionContext) {
   );
 }
 
+type ClosestMatch = { range: vscode.Range; indexOfMatchDecorations: number };
+
+function findClosestMatch(
+  matchDecorations: vscode.DecorationOptions[],
+  currentSelectionPosition: vscode.Position,
+): ClosestMatch | null {
+  let diffLines = Number.MAX_SAFE_INTEGER;
+  let closestMatch: ClosestMatch | null = null;
+
+  function updateClosestMatch(range: vscode.Range, index: number) {
+    closestMatch = {
+      ...closestMatch,
+      range: range,
+      indexOfMatchDecorations: index,
+    };
+  }
+
+  matchDecorations.forEach((matchDecoration, idx) => {
+    const rangeCurrent = matchDecoration.range;
+
+    if (!closestMatch) {
+      updateClosestMatch(rangeCurrent, idx);
+    } else {
+      const diffCurrent = Math.abs(
+        currentSelectionPosition.line - rangeCurrent.start.line,
+      );
+
+      if (diffCurrent < diffLines) {
+        diffLines = diffCurrent;
+        updateClosestMatch(rangeCurrent, idx);
+      }
+    }
+  });
+
+  return closestMatch;
+}
+
 function executeCycleThrough(direction: 'forwards' | 'backwards' = 'forwards') {
   if (!searchContext) {
     throw new Error('Missing search context');
@@ -246,6 +291,7 @@ function executeCycleThrough(direction: 'forwards' | 'backwards' = 'forwards') {
   const newCurrentIndex =
     (searchContext.currentIndex + indexOffsetForDirection) %
     searchContext.matches.length;
+
   searchContext.currentIndex = newCurrentIndex;
 
   const matchIndex = searchContext.matches.at(searchContext.currentIndex);
@@ -260,7 +306,7 @@ function executeCycleThrough(direction: 'forwards' | 'backwards' = 'forwards') {
       document: activeTextEditor.document,
     });
 
-    setSelection(range);
+    setSelection(range, newCurrentIndex);
   }
 }
 
@@ -309,7 +355,7 @@ function executeSearch(searchTerm: string) {
   }
 
   // Apply decorations to the matches
-  let matchDecorations: vscode.DecorationOptions[] = matches
+  const matchDecorations: vscode.DecorationOptions[] = matches
     .filter((matchIndex) => typeof matchIndex === 'number')
     .map((matchIndex) => {
       return {
@@ -323,14 +369,20 @@ function executeSearch(searchTerm: string) {
 
   setTextDecoration(activeTextEditor, matchDecorations);
 
-  // Initially set the selection to the first match
-  const firstMatchDecoration = matchDecorations.at(0);
-  if (!!firstMatchDecoration) {
-    setSelection(firstMatchDecoration.range);
+  // Initially set the selection to the closest match
+  const closestMatch = findClosestMatch(
+    matchDecorations,
+    activeTextEditor.selection.start,
+  );
+  if (!!closestMatch) {
+    setSelection(closestMatch.range, closestMatch.indexOfMatchDecorations);
   }
 
-  // Store the matches and search term in a context for navigation
-  searchContext = { searchTerm, matches, currentIndex: 0 };
+  searchContext = {
+    searchTerm,
+    matches,
+    currentIndex: !closestMatch ? 0 : closestMatch.indexOfMatchDecorations,
+  };
 
   console.debug('######## End of executing search');
 }

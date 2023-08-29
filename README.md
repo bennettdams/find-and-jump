@@ -8,10 +8,10 @@ Easy way to find text, jump to it and cycle through matches, directly in your ac
 
 1. Press a keybinding to activate search mode
 2. Enter your search text
-3. Every new character will show new matches
+3. Every new character will show new matches and select the closest match automatically
 4. Press another key (e.g. TAB) to cycle through the matches
 
-The difference to other extensions like this is that every keystroke will show you new matches, without the need to confirm your search first.
+The difference to other extensions like this is that every keystroke will show & select new matches, without the need to confirm your search first.
 
 <img src="images/demo-find-and-jump.gif" alt="Find & Jump demo" width="700"/>
 
