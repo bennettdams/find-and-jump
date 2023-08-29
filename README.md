@@ -19,40 +19,40 @@ The difference to other extensions like this is that every keystroke will show &
 
 ### Configuration
 
-- `findAndJump.caseSensitiveSearch`
-  - Use case-sensitive search
+- Case-sensitive search
+  - `findAndJump.caseSensitiveSearch`
   - _default: false_
-- `findAndJump.showTooltipIfNoMatches`
-  - Show a tooltip if the current search has no matches
+- Show a tooltip if the current search has no matches
+  - `findAndJump.showTooltipIfNoMatches`
   - _default: false_
-- `findAndJump.matchesColor.background`
-  - Custom background color for all matches
+- Custom background color for all matches
+  - `findAndJump.matchesColor.background`
   - _default: "#3e56c2"_
-- `findAndJump.matchesColor.foreground`
-  - Custom foreground color for all matches
+- Custom foreground color for all matches
+  - `findAndJump.matchesColor.foreground`
   - _default: "white"_
-- `findAndJump.currentMatchColor.background`
-  - Custom background color for the currently selected match
+- Custom background color for the currently selected match
+  - `findAndJump.currentMatchColor.background`
   - _default: "#132eab"_
-- `findAndJump.currentMatchColor.foreground`
-  - Custom foreground color for the currently selected match
+- Custom foreground color for the currently selected match
+  - `findAndJump.currentMatchColor.foreground`
   - _default: "white"_
 
 ### Keybindings
 
 There are three main keybindings: activate, exit and cycle through matches.
 
-- `findAndJump.activateSearchMode`
-  - Activate search mode
+- Activate search mode
+  - `findAndJump.activateSearchMode`
   - _default: Alt + Q_
-- `findAndJump.exitSearchMode`
-  - Exit search mode
+- Exit search mode
+  - `findAndJump.exitSearchMode`
   - _default: Escape_
-- `findAndJump.cycleThroughMatches`
-  - Cycle through results in search mode. Only active when search mode is active.
+- Cycle through results in search mode. Only active when search mode is active.
+  - `findAndJump.cycleThroughMatches`
   - _default: Tab_
-- `findAndJump.cycleThroughMatchesBackwards`
-  - Cycle backwards through results in search mode. Only active when search mode is active.
+- Cycle backwards through results in search mode. Only active when search mode is active.
+  - `findAndJump.cycleThroughMatchesBackwards`
   - _default: Shift + Tab_
 
 Here's the default keybindings for the JSON settings:
