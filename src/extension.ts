@@ -128,26 +128,29 @@ function createRange({
   return range;
 }
 
-function setSelection(range: vscode.Range, currentIndexNew: number) {
+function selectRange(range: vscode.Range, currentIndexNew: number) {
   const activeTextEditor = vscode.window.activeTextEditor;
 
   if (!activeTextEditor) {
     throw new Error('No active text editor');
+  } else if (!searchContext) {
+    throw new Error('No search context');
   } else {
     // Set the active decoration for search result
     activeTextEditor.setDecorations(decorations.currentMatch, [range]);
     // Select the search result
     activeTextEditor.selection = new vscode.Selection(range.start, range.end);
     // Scroll to search result
-    activeTextEditor.revealRange(range, vscode.TextEditorRevealType.InCenter);
+    activeTextEditor.revealRange(
+      range,
+      vscode.TextEditorRevealType.InCenterIfOutsideViewport,
+    );
 
-    if (!!searchContext) {
-      /*
-       * We are programmatically changing the selection, so we need to save the new current index
-       * in the search context so "cycling" is aware of it.
-       */
-      searchContext.currentIndex = currentIndexNew;
-    }
+    /*
+     * We are programmatically changing the selection, so we need to save the new current index
+     * in the search context so "cycling" is aware of it.
+     */
+    searchContext.currentIndex = currentIndexNew;
   }
 }
 
@@ -306,7 +309,7 @@ function executeCycleThrough(direction: 'forwards' | 'backwards' = 'forwards') {
       document: activeTextEditor.document,
     });
 
-    setSelection(range, newCurrentIndex);
+    selectRange(range, newCurrentIndex);
   }
 }
 
@@ -374,9 +377,6 @@ function executeSearch(searchTerm: string) {
     matchDecorations,
     activeTextEditor.selection.start,
   );
-  if (!!closestMatch) {
-    setSelection(closestMatch.range, closestMatch.indexOfMatchDecorations);
-  }
 
   searchContext = {
     searchTerm,
@@ -384,6 +384,9 @@ function executeSearch(searchTerm: string) {
     currentIndex: !closestMatch ? 0 : closestMatch.indexOfMatchDecorations,
   };
 
+  if (!!closestMatch) {
+    selectRange(closestMatch.range, closestMatch.indexOfMatchDecorations);
+  }
   console.debug('######## End of executing search');
 }
 
