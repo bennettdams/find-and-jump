@@ -39,6 +39,11 @@
           "default": false,
           "description": "Show a tooltip if the current search has no matches."
         },
+        "findAndJump.minimumCharactersToExecuteSearch": {
+          "type": "number",
+          "default": 2,
+          "description": "Minimum number of characters to execute the search."
+        },
         "findAndJump.matchesColor.background": {
           "type": "string",
           "default": "#3e56c2",

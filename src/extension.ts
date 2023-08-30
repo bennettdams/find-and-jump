@@ -19,6 +19,7 @@ function setStatusBarMessage(msg: string) {
 type ExtensionSetting =
   | 'showTooltipIfNoMatches'
   | 'caseSensitiveSearch'
+  | 'minimumCharactersToExecuteSearch'
   | 'matchesColor.foreground'
   | 'matchesColor.background'
   | 'currentMatchColor.foreground'
@@ -316,6 +317,20 @@ function executeCycleThrough(direction: 'forwards' | 'backwards' = 'forwards') {
 function executeSearch(searchTerm: string) {
   console.debug('######## Executing search for: ', searchTerm);
 
+  const searchMsg = `Searching for: '${searchTerm}'`;
+
+  const minimumCharactersToExecuteSearch = Number(
+    readConfiguration('minimumCharactersToExecuteSearch'),
+  );
+  if (searchTerm.length < minimumCharactersToExecuteSearch) {
+    setStatusBarMessage(
+      `${searchMsg} | Enter ${
+        minimumCharactersToExecuteSearch - searchTerm.length
+      } more characters.`,
+    );
+    return;
+  }
+
   const activeTextEditor = vscode.window.activeTextEditor;
   if (!activeTextEditor) {
     showTooltipMessage('No active text editor.', 'error');
@@ -335,8 +350,6 @@ function executeSearch(searchTerm: string) {
     (match) => match.index,
   );
   const noOfMatches = matches.length;
-
-  const searchMsg = `Searching for: '${searchTerm}'`;
 
   if (noOfMatches === 0) {
     if (searchContext?.searchTerm) {

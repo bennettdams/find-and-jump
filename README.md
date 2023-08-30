@@ -25,6 +25,9 @@ The difference to other extensions like this is that every keystroke will show &
 - Show a tooltip if the current search has no matches
   - `findAndJump.showTooltipIfNoMatches`
   - _default: false_
+- Minimum number of characters to execute the search
+  - `findAndJump.minimumCharactersToExecuteSearch`
+  - _default: 2_
 - Custom background color for all matches
   - `findAndJump.matchesColor.background`
   - _default: "#3e56c2"_
