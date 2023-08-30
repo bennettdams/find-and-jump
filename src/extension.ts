@@ -76,7 +76,9 @@ function showTooltipMessage(
       break;
     }
     default: {
-      throw new Error(`Unkown tooltip type: ${type}`);
+      // TypeScript hack for exhaustive switch check
+      const exhaustiveCheck: never = type;
+      throw new Error(`Unkown tooltip type: ${exhaustiveCheck}`);
     }
   }
 }
@@ -319,21 +321,26 @@ function executeSearch(searchTerm: string) {
 
   const searchMsg = `Searching for: '${searchTerm}'`;
 
+  const noOfChars = searchTerm.length;
   const minimumCharactersToExecuteSearch = Number(
     readConfiguration('minimumCharactersToExecuteSearch'),
   );
-  if (searchTerm.length < minimumCharactersToExecuteSearch) {
+  if (noOfChars < minimumCharactersToExecuteSearch) {
+    const noOfNeededChars = minimumCharactersToExecuteSearch - noOfChars;
+
     setStatusBarMessage(
-      `${searchMsg} | Enter ${
-        minimumCharactersToExecuteSearch - searchTerm.length
-      } more characters.`,
+      `${searchMsg} | Enter ${noOfNeededChars} more character${
+        noOfNeededChars > 1 ? 's' : ''
+      }.`,
     );
+
     return;
   }
 
   const activeTextEditor = vscode.window.activeTextEditor;
   if (!activeTextEditor) {
     showTooltipMessage('No active text editor.', 'error');
+
     return;
   }
 
