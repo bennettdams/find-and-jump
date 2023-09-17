@@ -83,11 +83,6 @@
         "when": "editorTextFocus"
       },
       {
-        "key": "escape",
-        "command": "findAndJump.exitSearchMode",
-        "when": "editorTextFocus && findAndJump.isSearchModeActive"
-      },
-      {
         "key": "tab",
         "command": "findAndJump.cycleThroughMatches",
         "when": "editorTextFocus && findAndJump.isSearchModeActive"
@@ -100,6 +95,31 @@
       {
         "key": "backspace",
         "command": "findAndJump.captureBackspace",
+        "when": "editorTextFocus && findAndJump.isSearchModeActive"
+      },
+      {
+        "key": "escape",
+        "command": "findAndJump.exitSearchMode",
+        "when": "editorTextFocus && findAndJump.isSearchModeActive"
+      },
+      {
+        "key": "up",
+        "command": "findAndJump.exitSearchMode",
+        "when": "editorTextFocus && findAndJump.isSearchModeActive"
+      },
+      {
+        "key": "right",
+        "command": "findAndJump.exitSearchMode",
+        "when": "editorTextFocus && findAndJump.isSearchModeActive"
+      },
+      {
+        "key": "down",
+        "command": "findAndJump.exitSearchMode",
+        "when": "editorTextFocus && findAndJump.isSearchModeActive"
+      },
+      {
+        "key": "left",
+        "command": "findAndJump.exitSearchMode",
         "when": "editorTextFocus && findAndJump.isSearchModeActive"
       }
     ]

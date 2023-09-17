@@ -50,7 +50,7 @@ There are three main keybindings: activate, exit and cycle through matches.
   - _default: Alt + Q_
 - Exit search mode
   - `findAndJump.exitSearchMode`
-  - _default: Escape_
+  - _default: Escape & arrow keys_
 - Cycle through results in search mode. Only active when search mode is active.
   - `findAndJump.cycleThroughMatches`
   - _default: Tab_
@@ -67,11 +67,6 @@ Here's the default keybindings for the JSON settings:
   "when": "editorTextFocus"
 },
 {
-  "key": "escape",
-  "command": "findAndJump.exitSearchMode",
-  "when": "editorTextFocus && findAndJump.isSearchModeActive"
-},
-{
   "key": "tab",
   "command": "findAndJump.cycleThroughMatches",
   "when": "editorTextFocus && findAndJump.isSearchModeActive"
@@ -81,6 +76,31 @@ Here's the default keybindings for the JSON settings:
   "command": "findAndJump.cycleThroughMatchesBackwards",
   "when": "editorTextFocus && findAndJump.isSearchModeActive"
 },
+{
+  "key": "escape",
+  "command": "findAndJump.exitSearchMode",
+  "when": "editorTextFocus && findAndJump.isSearchModeActive"
+},
+{
+  "key": "up",
+  "command": "findAndJump.exitSearchMode",
+  "when": "editorTextFocus && findAndJump.isSearchModeActive"
+},
+{
+  "key": "right",
+  "command": "findAndJump.exitSearchMode",
+  "when": "editorTextFocus && findAndJump.isSearchModeActive"
+},
+{
+  "key": "down",
+  "command": "findAndJump.exitSearchMode",
+  "when": "editorTextFocus && findAndJump.isSearchModeActive"
+},
+{
+  "key": "left",
+  "command": "findAndJump.exitSearchMode",
+  "when": "editorTextFocus && findAndJump.isSearchModeActive"
+}
 ```
 
 ## Release Notes
